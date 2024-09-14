@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+    mysql:
+        image: mysql:8
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassword
+            MYSQL_DATABASE: course_demo
+            MYSQL_USER: user
+            MYSQL_PASSWORD: studentpassword
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_course:/var/lib/mysql
+        restart: unless-stopped
+
+volumes:
+    mysql_course:
+        driver: local
