@@ -17,7 +17,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'web'@'localhost';
 REVOKE ALL PRIVILEGES ON *.* FROM 'web'@'localhost';
 
 -- Grant specific privileges on the course_demo database only
-GRANT SELECT, INSERT, UPDATE, DELETE, INDEX, ALTER ON course_demo.* TO 'web'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON course_demo.* TO 'web'@'localhost';
 
 -- Apply the changes
 FLUSH PRIVILEGES;
