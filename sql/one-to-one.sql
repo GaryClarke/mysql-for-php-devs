@@ -7,7 +7,8 @@ CREATE TABLE contact_details (
     emergency_contact_phone VARCHAR(15),
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
-
+-- Retrieve the employee name and phone number for all
+-- employees on project number 4
 SELECT e.name AS Employee_Name, cd.phone_number AS Phone_Number
 FROM employees e
 JOIN project_assignments pa ON e.id = pa.employee_id
