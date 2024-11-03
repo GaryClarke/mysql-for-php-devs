@@ -13,7 +13,16 @@ services:
         volumes:
             - mysql_course:/var/lib/mysql
         restart: unless-stopped
-
+    app:
+        build:
+            context: .  # Directory containing the Dockerfile
+            dockerfile: Dockerfile  # Name of the Dockerfile
+        ports:
+            - "8080:80"  # Map Apache port to host
+        depends_on:
+            - mysql
+        volumes:
+            - .:/var/www/html
 volumes:
     mysql_course:
         driver: local
