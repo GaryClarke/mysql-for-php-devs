@@ -8,12 +8,34 @@ if (!$link) {
 echo "Connected successfully using procedural style";
 
 
-// Connect to MySQL using mysqli (OOP)
-$mysqli = new mysqli("mysql", "user", "studentpassword", "course_demo");
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
+// Prepare a SELECT statement to fetch employee data
+$query = "SELECT id, name, department_id FROM employees";
+
+// Execute the query
+$result = mysqli_query($link, $query);
+
+// Check if the query was successful
+if (!$result) {
+    die('Query failed: ' . mysqli_error($link));
 }
-echo "Connected successfully using OOP style";
+
+// Fetch and display each row of data
+if (mysqli_num_rows($result) > 0) {
+    // Iterate over the result set using `mysqli_fetch_assoc()` to retrieve each row as an associative array
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "ID: " . $row['id'] . " - Name: " . $row['name'] . " - Department: " . $row['department'] . "\n";
+    }
+} else {
+    echo "No results found.";
+}
+
+// Free the memory associated with the result using
+mysqli_free_result($result);
+
+// Close the database connection to free up resources
+mysqli_close($link);
+
+
 
 
 
