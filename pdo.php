@@ -2,6 +2,8 @@
 
 // Connect to MySQL using PDO
 try {
+    // DSN stands for Data Source Name. It's a string that
+    // contains the information needed to connect to a database.
     $dsn = "mysql:host=mysql;dbname=course_demo";
     $username = "user";
     $password = "studentpassword";
