@@ -1,11 +1,11 @@
 <?php // mysqli.php
 
 // Connect to MySQL using mysqli (procedural)
-$link = mysqli_connect("mysql", "user", "studentpassword", "course_demo");
-if (!$link) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-echo "Connected successfully using procedural style";
+//$link = mysqli_connect("mysql", "user", "studentpassword", "course_demo");
+//if (!$link) {
+//    die("Connection failed: " . mysqli_connect_error());
+//}
+//echo "Connected successfully using procedural style";
 
 
 // Prepare a SELECT statement to fetch employee data
