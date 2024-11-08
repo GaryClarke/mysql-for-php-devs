@@ -1,4 +1,4 @@
-<?php
+<?php // src/DB/Database.php
 
 declare(strict_types=1);
 
