@@ -8,11 +8,10 @@ $pdo = $db->getPDO();
 // Prepare an UPDATE statement
 $stmt = $pdo->prepare("UPDATE employees SET salary = :salary WHERE id = :id");
 $newSalary = 60000;
-$employeeId = 1;
+$employeeId = 20;
 
-// Bind parameters
-$stmt->bindParam(':salary', $newSalary, PDO::PARAM_INT);
-$stmt->bindParam(':id', $employeeId, PDO::PARAM_INT);
+$stmt->bindParam(":salary", $newSalary, PDO::PARAM_INT);
+$stmt->bindParam(":id", $employeeId, PDO::PARAM_INT);
 
 // Execute the statement
 if ($stmt->execute()) {
