@@ -9,7 +9,7 @@ $pdo = $db->getPDO();
 $stmt = $pdo->prepare("DELETE FROM department
     WHERE NOT EXISTS (
         SELECT 1 FROM employees
-        WHERE employees.department_id = department.department_id
+        WHERE employees.department_id = department.id
     );
 ");
 
