@@ -6,12 +6,13 @@ $db = \App\DB\Database::getInstance();
 $pdo = $db->getPDO();
 
 // Prepare a DELETE statement
-$stmt = $pdo->prepare("DELETE FROM employees WHERE id = :id");
+$stmt = $pdo->prepare("DELETE FROM products WHERE id = :id");
 
-$employeeId = 13; // example ID of the employee to delete
+// example ID of the product to delete
+$id = 1;
 
 // Bind parameter
-$stmt->bindParam(':id', $employeeId, PDO::PARAM_INT);
+$stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
 // Execute the statement
 if ($stmt->execute()) {
