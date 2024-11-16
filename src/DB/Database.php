@@ -17,6 +17,11 @@ class Database
         $username = "user";
         $password = "studentpassword";
         $this->pdo = new PDO($dsn, $username, $password);
+
+        // PDO::ATTR_ERRMODE: This attribute controls error reporting in PDO. By setting it
+        // to PDO::ERRMODE_EXCEPTION, you instruct PDO to throw exceptions whenever
+        // a database error occurs. This mode is highly recommended because it allows you
+        // to use try-catch blocks to handle errors gracefully
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
