@@ -1,0 +1,6 @@
+DELIMITER //
+CREATE PROCEDURE GetEmployeeDetails(IN empID INT)
+BEGIN
+SELECT * FROM employees WHERE id = empID;
+END //
+DELIMITER;
