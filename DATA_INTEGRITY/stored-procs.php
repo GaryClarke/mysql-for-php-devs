@@ -5,6 +5,8 @@ require_once dirname(__DIR__) . "/vendor/autoload.php";
 $db = \App\DB\Database::getInstance();
 $pdo = $db->getPDO();
 
+$employeeId = 13;
+
 $stmt = $pdo->prepare("CALL GetEmployeeDetails(:empID)");
 $stmt->bindParam(':empID', $employeeId, PDO::PARAM_INT);
 $stmt->execute();
@@ -17,8 +19,6 @@ if ($row) {
     echo "<h2>Employee Details</h2>";
     echo "ID: " . htmlspecialchars($row['id']) . "<br>";
     echo "Name: " . htmlspecialchars($row['name']) . "<br>";
-    echo "Position: " . htmlspecialchars($row['position']) . "<br>";
-    echo "Department: " . htmlspecialchars($row['department']) . "<br>";
     echo "Salary: " . htmlspecialchars($row['salary']) . "<br>";
 } else {
     echo "No employee found with ID: $employeeId";
