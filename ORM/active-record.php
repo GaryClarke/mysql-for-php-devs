@@ -12,4 +12,6 @@ $employee = new Employee([
     'salary' => 50000
 ]);
 
+$employee = $employee->insert();
+
 dd($employee);

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\DB\Database;
+use PDO;
+
 class Model
 {
     protected string $tableName;
@@ -18,5 +21,41 @@ class Model
     public function fill(array $attributes): void
     {
         $this->attributes = array_merge($this->attributes, $attributes);
+    }
+
+    public function insert(): self
+    {
+        // Extract the keys (column names) from the attributes array.
+        $keys = array_keys($this->attributes);
+
+        // Extract the values corresponding to the column names.
+        $values = array_values($this->attributes);
+
+        // Create an array of placeholders for a parameterized query.
+        // This ensures that the query is safe from SQL injection.
+        $placeholders = array_fill(0, count($keys), '?');
+
+        // Prepare the SQL INSERT statement.
+        // The column names are joined into a comma-separated list.
+        // The placeholders array is also joined, ensuring alignment with the column names.
+        $stmt = $this->getPDO()->prepare("INSERT INTO {$this->tableName} ("
+            . implode(',', $keys) . ") VALUES ("
+            . implode(',', $placeholders) . ")");
+
+        // Execute the prepared statement with the array of values.
+        // This binds the values to the placeholders in the prepared statement, ensuring safety.
+        $stmt->execute($values);
+
+        // After a successful insert, retrieve the last inserted ID from the database.
+        // This assumes the table's primary key is auto-incremented.
+        $this->attributes[$this->primaryKey] = $this->getPDO()->lastInsertId();
+
+        // Return the current instance for method chaining or further operations.
+        return $this;
+    }
+
+    public function getPDO(): PDO
+    {
+        return Database::getInstance()->getPDO();
     }
 }
