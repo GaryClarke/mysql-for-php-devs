@@ -54,6 +54,36 @@ class Model
         return $this;
     }
 
+    public function update(): self
+    {
+        // Filter out the primary key or any other keys you don't want to update
+        $keys = array_filter(array_keys($this->attributes), function ($key) {
+            return $key != $this->primaryKey;
+        });
+
+        // Create a SQL snippet for the SET clause by mapping each key to 'key = ?'.
+        $set = implode(', ', array_map(function ($key) {
+            return "$key = ?";
+        }, $keys));
+
+        // Gather all values from the attributes array except the primary key.
+        $values = array_map(function ($key) {
+            return $this->attributes[$key];
+        }, $keys);
+
+        // Prepare a SQL UPDATE statement using the table name, SET clause, and primary key condition.
+        $stmt = $this->getPDO()->prepare("UPDATE {$this->tableName} SET $set WHERE {$this->primaryKey} = ?");
+
+        // Add the primary key value at the end of the values array for the WHERE clause.
+        $values[] = $this->attributes[$this->primaryKey];
+
+        // Execute the prepared statement with the array of values.
+        $stmt->execute($values);
+
+        // Return the instance to allow for method chaining or further operations.
+        return $this;
+    }
+
     public function getPDO(): PDO
     {
         return Database::getInstance()->getPDO();

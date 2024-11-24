@@ -9,9 +9,10 @@ require_once dirname(__DIR__) . "/vendor/autoload.php";
 $employee = new Employee([
     'name' => 'Active Record',
     'age' => 25,
-    'salary' => 50000
+    'salary' => 60000,
+    'id' => 26
 ]);
 
-$employee = $employee->insert();
+$employee = $employee->update();
 
 dd($employee);
