@@ -93,6 +93,13 @@ class Model
         return $this;
     }
 
+    public function delete(): int
+    {
+        $stmt = $this->getPDO()->prepare("DELETE FROM {$this->tableName} WHERE {$this->primaryKey} = ?");
+        $stmt->execute([$this->attributes[$this->primaryKey]]);
+        return $stmt->rowCount();
+    }
+
     public function getPDO(): PDO
     {
         return Database::getInstance()->getPDO();

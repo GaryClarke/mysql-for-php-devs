@@ -7,11 +7,9 @@ use App\Model\Employee;
 require_once dirname(__DIR__) . "/vendor/autoload.php";
 
 $employee = new Employee([
-    'name' => 'Active Record',
-    'age' => 25,
-    'salary' => 70000
+    'id' => 27
 ]);
 
-$employee = $employee->save();
+$rowCount = $employee->delete();
 
-dd($employee);
+dd("$rowCount employees deleted");
