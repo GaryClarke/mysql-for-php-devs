@@ -23,6 +23,15 @@ class Model
         $this->attributes = array_merge($this->attributes, $attributes);
     }
 
+    public function save(): self
+    {
+        if (isset($this->attributes[$this->primaryKey]) && !empty($this->attributes[$this->primaryKey])) {
+            return $this->update();
+        } else {
+            return $this->insert();
+        }
+    }
+
     public function insert(): self
     {
         // Extract the keys (column names) from the attributes array.
