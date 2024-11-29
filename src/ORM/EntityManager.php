@@ -1,8 +1,10 @@
-<?php
+<?php // src/ORm/EntityManager.php
 
 declare(strict_types=1);
 
 namespace App\ORM;
+
+use App\Entity\EntityInterface;
 
 class EntityManager implements EntityManagerInterface
 {
