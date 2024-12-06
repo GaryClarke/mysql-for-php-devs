@@ -6,30 +6,41 @@ namespace App\ORM;
 
 use App\Attribute\Table;
 use App\Entity\EntityInterface;
+use PDO;
 use ReflectionClass;
 
 class EntityManager implements EntityManagerInterface
 {
+    public function __construct(private PDO $pdo)
+    {
+    }
+
     public function find(string $className, int $id): ?EntityInterface
     {
         // Retrieve the table name associated with the class name using attributes.
         $table = $this->getTable($className);
 
-        dd($table);
-
         // Prepare a SQL statement to select all columns from the table where the ID matches.
+        $stmt = $this->pdo->prepare("SELECT * FROM $table WHERE id = ?");
 
         // Execute the prepared statement with the provided ID.
+        $stmt->execute([$id]);
 
         // Fetch the result as an associative array.
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // If data is found, create a new instance of the class.
-
+        if ($data) {
+            $entity = new $className();
             // Map the fetched data to the entity's properties.
+            $this->mapDataToEntity($data, $entity);
 
             // Return the populated entity.
+            return $entity;
+        }
 
         // Return null if no data is found.
+        return null;
     }
 
     public function persist(EntityInterface $entity): bool
