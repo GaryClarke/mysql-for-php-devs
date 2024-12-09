@@ -15,6 +15,6 @@ $pdo = Database::getInstance()->getPDO();
 $entityManager = new EntityManager($pdo);
 
 // Retrieve an employee by ID
-$employee = $entityManager->find(Employee::class, 13);
+$employee = $entityManager->find(Employee::class, 100);
 
 dd($employee);

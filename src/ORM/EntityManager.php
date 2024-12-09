@@ -53,6 +53,29 @@ class EntityManager implements EntityManagerInterface
         // TODO: Implement remove() method.
     }
 
+    private function mapDataToEntity(array $data, EntityInterface $entity): void
+    {
+        // Create a reflection class instance for the entity to access its properties.
+        $reflect = new ReflectionClass($entity);
+
+        // Iterate through each key-value pair in the data array.
+        foreach ($data as $key => $value) {
+
+            // Check if the entity has a property matching the data key.
+            if ($reflect->hasProperty($key)) {
+
+                // Get the reflection property from the entity.
+                $prop = $reflect->getProperty($key);
+
+                // Make the property accessible even if it is protected or private.
+                $prop->setAccessible(true);
+
+                // Set the value of the property using the value from the data array.
+                $prop->setValue($entity, $value);
+            }
+        }
+    }
+
     private function getTable(string $className): string
     {
         // Create a new ReflectionClass object for the specified class name.
