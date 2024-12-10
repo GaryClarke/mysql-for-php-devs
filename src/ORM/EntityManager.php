@@ -45,7 +45,55 @@ class EntityManager implements EntityManagerInterface
 
     public function persist(EntityInterface $entity): bool
     {
-        // TODO: Implement persist() method.
+        // Use Reflection to obtain metadata about the Entity class
+        $class = new ReflectionClass($entity);
+
+        // Determine the database table name associated with the Entity
+        $table = $this->getTable($class->getName());
+
+        $columns = []; // Hold column names for the SQL query
+        $values = []; // Hold values to be bound to the query
+        $placeholders = []; // Hold placeholders for the SQL query
+
+        // Iterate over all properties of the Entity object
+        foreach ($class->getProperties() as $prop) {
+            $name = $prop->getName(); // Get the property name
+            $value = $prop->getValue($entity); // Get the value of the property
+
+            // Only add the property to the query if it's not null
+            if ($value !== null) {
+                $columns[] = $name;
+                $values[] = $value;
+                // Add a placeholder for prepared statement
+                $placeholders[] = '?';
+            }
+        }
+
+        // Check IF the Entity has an ID, indicating an update is required
+        $id = $entity->getId() ?? null;
+        if ($id) {
+
+            // Prepare SQL for update
+            // Add ID as the last value to match the WHERE condition
+            $sql = "";
+
+        // ELSE
+        } else {
+            // Prepare SQL for insert
+            $sql = "INSERT INTO $table (" . implode(', ', $columns) . ") VALUES (" . implode(', ', $placeholders) . ")";
+        }
+
+        // Prepare and execute the SQL statement
+        $stmt = $this->pdo->prepare($sql);
+        $executed = $stmt->execute($values);
+
+        // If it's an insert, and it executed successfully, set the ID on the Entity
+        if (!$id && $executed) {
+            $entity->setId((int) $this->pdo->lastInsertId());
+        }
+
+        // Return true if the SQL executed successfully, otherwise false
+        return $executed;
     }
 
     public function remove(EntityInterface $entity): bool
