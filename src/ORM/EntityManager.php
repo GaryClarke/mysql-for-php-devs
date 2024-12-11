@@ -72,10 +72,17 @@ class EntityManager implements EntityManagerInterface
         // Check IF the Entity has an ID, indicating an update is required
         $id = $entity->getId() ?? null;
         if ($id) {
+            // Map each column to a placeholder in the SQL statement to prevent SQL injection
+            // and prepare for binding values. e.g. "name" BECOMES "name = ?"
+            $setParts = array_map(fn($col) => "$col = ?", $columns);
 
-            // Prepare SQL for update
-            // Add ID as the last value to match the WHERE condition
-            $sql = "";
+            // Join all column assignments into a single string to form the SET
+            // part of the UPDATE statement.
+            $sql = "UPDATE $table SET " . implode(', ', $setParts) . " WHERE id = ?";
+
+            dd($sql);
+
+            // Append the ID to the list of values to ensure the correct record is updated.
 
         // ELSE
         } else {

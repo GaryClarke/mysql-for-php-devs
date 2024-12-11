@@ -14,16 +14,29 @@ $pdo = Database::getInstance()->getPDO();
 // Create an instance of EntityManager
 $entityManager = new EntityManager($pdo);
 
-// Insert a new employee
-$newEmployee = new Employee();
-$newEmployee->setName("New Employee");
-$newEmployee->setAge(25);
-$newEmployee->setSalary(40000);
-if ($entityManager->persist($newEmployee)) {
-    echo "New employee created with ID: " . $newEmployee->getId() . "\n";
-} else {
-    echo "Failed to create new employee.\n";
+// Retrieve an employee by ID
+$employee = $entityManager->find(Employee::class, 18);
+
+// Update an employee's details
+if ($employee) {
+    $employee->setName("New Name");
+    if ($entityManager->persist($employee)) {
+        echo "Employee updated successfully.\n";
+    } else {
+        echo "Failed to update employee.\n";
+    }
 }
+
+// Insert a new employee
+//$newEmployee = new Employee();
+//$newEmployee->setName("New Employee");
+//$newEmployee->setAge(25);
+//$newEmployee->setSalary(40000);
+//if ($entityManager->persist($newEmployee)) {
+//    echo "New employee created with ID: " . $newEmployee->getId() . "\n";
+//} else {
+//    echo "Failed to create new employee.\n";
+//}
 
 
 
