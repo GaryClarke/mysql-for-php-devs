@@ -61,7 +61,7 @@ class EntityManager implements EntityManagerInterface
             $value = $prop->getValue($entity); // Get the value of the property
 
             // Only add the property to the query if it's not null
-            if ($value !== null) {
+            if ($value !== null && $name !== 'id') {
                 $columns[] = $name;
                 $values[] = $value;
                 // Add a placeholder for prepared statement
@@ -80,9 +80,8 @@ class EntityManager implements EntityManagerInterface
             // part of the UPDATE statement.
             $sql = "UPDATE $table SET " . implode(', ', $setParts) . " WHERE id = ?";
 
-            dd($sql);
-
             // Append the ID to the list of values to ensure the correct record is updated.
+            $values[] = $id;
 
         // ELSE
         } else {
