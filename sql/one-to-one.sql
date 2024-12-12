@@ -5,8 +5,9 @@ CREATE TABLE contact_details (
     home_address VARCHAR(255),
     emergency_contact_name VARCHAR(100),
     emergency_contact_phone VARCHAR(15),
-    FOREIGN KEY (employee_id) REFERENCES employees(id)
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
 );
+
 -- Retrieve the employee name and phone number for all
 -- employees on project number 4
 SELECT e.name AS Employee_Name, cd.phone_number AS Phone_Number

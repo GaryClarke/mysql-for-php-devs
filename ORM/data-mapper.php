@@ -17,15 +17,22 @@ $entityManager = new EntityManager($pdo);
 // Retrieve an employee by ID
 $employee = $entityManager->find(Employee::class, 18);
 
-// Update an employee's details
-if ($employee) {
-    $employee->setName("New Name");
-    if ($entityManager->persist($employee)) {
-        echo "Employee updated successfully.\n";
-    } else {
-        echo "Failed to update employee.\n";
-    }
+// Delete an employee
+if ($entityManager->remove($employee)) {
+    echo "Employee deleted successfully.\n";
+} else {
+    echo "Failed to delete employee.\n";
 }
+
+// Update an employee's details
+//if ($employee) {
+//    $employee->setName("New Name");
+//    if ($entityManager->persist($employee)) {
+//        echo "Employee updated successfully.\n";
+//    } else {
+//        echo "Failed to update employee.\n";
+//    }
+//}
 
 // Insert a new employee
 //$newEmployee = new Employee();

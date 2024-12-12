@@ -104,7 +104,28 @@ class EntityManager implements EntityManagerInterface
 
     public function remove(EntityInterface $entity): bool
     {
-        // TODO: Implement remove() method.
+        // Use Reflection to access metadata about the entity's class.
+        $class = new ReflectionClass($entity);
+
+        // Obtain the table name associated with the entity using the class metadata.
+        $table = $this->getTable($class->getName());
+
+        // Retrieve the entity's identifier (ID) used to locate the record in the database.
+        $id = $entity->getId();
+
+        // Check if a valid ID is present, indicating there's a specific record to delete.
+        if ($id) {
+
+            // Prepare a DELETE SQL statement using the table name and where the ID matches.
+            $stmt = $this->pdo->prepare("DELETE FROM $table WHERE id = ?");
+
+            // Execute the prepared statement with the ID to delete the corresponding record.
+            // Return true if the execution is successful, indicating the record was deleted.
+            return $stmt->execute([$id]);
+        }
+
+        // Return false if no valid ID was provided, indicating that no deletion occurred.
+        return false;
     }
 
     private function mapDataToEntity(array $data, EntityInterface $entity): void
